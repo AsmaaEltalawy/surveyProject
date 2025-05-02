@@ -78,7 +78,9 @@ class SurveyModel {
   factory SurveyModel.fromList(List<dynamic> data) {
     if (data.length < 36) {
       throw Exception("Incomplete row: $data");
+
     }
+
     return SurveyModel(
       timestamp: data[2].toString(),
       gender: data[3].toString(),

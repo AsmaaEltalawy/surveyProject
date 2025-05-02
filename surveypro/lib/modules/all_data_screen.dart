@@ -56,7 +56,7 @@ class SurveyDataView extends StatelessWidget {
 
           return Container(
             color: Colors.grey[100],
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(3),
             child: Center(
               child: Card(
                 elevation: 8,
@@ -114,7 +114,7 @@ class SurveyDataView extends StatelessWidget {
                           DataColumn(label: Text('Satisfaction')),
                           DataColumn(label: Text('Comments')),
                         ],
-                        rows: surveyData.asMap().entries.map((entry) {
+                        rows: surveyData.asMap().entries.take(35).map((entry) {
                           int index = entry.key;
                           final dataModel = entry.value;
 
