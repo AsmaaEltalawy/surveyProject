@@ -1,14 +1,16 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/dashboard_bloc.dart';
-import '../bloc/dashboard_state.dart';
+import '../bloc/visualization_bloc.dart';
+import '../bloc/visualization_event.dart';
+import '../bloc/visualization_state.dart';
 
 class Visualization extends StatelessWidget {
   static String routeName = "visualization_screen";
 
   @override
   Widget build(BuildContext context) {
+    context.read<VisualizationBloc>().add(FetchVisualizationData());
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
@@ -26,14 +28,13 @@ class Visualization extends StatelessWidget {
           title: const Text("Visualization"),
         ),
       ),
-      body: BlocBuilder<DashboardBloc, DashboardState>(
+      body: BlocBuilder<VisualizationBloc, VisualizationState>(
         builder: (context, state) {
-          if (state is DashboardLoading) {
+          if (state is VisualizationLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is DashboardLoaded) {
-            // Replace these with actual values if available
-            double cityLiving = 40;
-            double ruralLiving = 60;
+          } else if (state is VisualizationLoaded) {
+            double cityLiving = state.cityLiving;
+            double ruralLiving = state.ruralLiving;
 
             return SafeArea(
               child: SingleChildScrollView(
@@ -80,7 +81,8 @@ class Visualization extends StatelessWidget {
                             ),
                           ],
                         ),
-                        swapAnimationDuration: const Duration(milliseconds: 800),
+                        swapAnimationDuration:
+                            const Duration(milliseconds: 800),
                         swapAnimationCurve: Curves.easeInOut,
                       ),
                     ),
@@ -94,14 +96,11 @@ class Visualization extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    _buildSummaryCard("City Living", "$cityLiving%", Colors.lightBlueAccent),
-                    const SizedBox(height: 10),
-                    _buildSummaryCard("Rural Living", "$ruralLiving%", Colors.pinkAccent),
                   ],
                 ),
               ),
             );
-          } else if (state is DashboardError) {
+          } else if (state is VisualizationError) {
             return Center(
               child: Text(
                 state.message,
@@ -134,27 +133,6 @@ class Visualization extends StatelessWidget {
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
         ),
       ],
-    );
-  }
-
-  Widget _buildSummaryCard(String title, String percentage, Color color) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: color.withOpacity(0.7),
-          child: Text(
-            percentage.replaceAll('%', ''),
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        title: Text(title),
-        subtitle: Text("Percentage of population"),
-      ),
     );
   }
 }

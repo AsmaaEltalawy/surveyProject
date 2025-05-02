@@ -4,23 +4,28 @@ import 'package:surveypro/modules/all_data_screen.dart';
 import 'package:surveypro/modules/home_screen.dart';
 import 'package:surveypro/modules/login_screen.dart';
 import 'package:surveypro/modules/splash_screen.dart';
+import 'package:surveypro/services/survey_survices.dart';
 import 'package:surveypro/theme/application_theme.dart';
 import 'bloc/dashboard_bloc.dart';
 import 'bloc/dashboard_event.dart';
 import 'bloc/login_bloc.dart';
+import 'bloc/visualization_bloc.dart';
+import 'bloc/visualization_event.dart';
 import 'modules/visualization.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final SurveyService surveyService = SurveyService();
+   MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
+          BlocProvider(create: (context) => VisualizationBloc(surveyService)..add(FetchVisualizationData())),
           BlocProvider(create: (context) => LoginBloc()),
           BlocProvider(create: (context) => DashboardBloc()..add(LoadDashboardData())),
         ],

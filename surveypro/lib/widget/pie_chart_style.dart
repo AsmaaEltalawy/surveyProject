@@ -12,7 +12,7 @@ double? secondResult;
     return Container(
       width: MediaQuery.of(context).size.width*0.9,
       height: MediaQuery.of(context).size.height * 0.3,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -21,7 +21,7 @@ double? secondResult;
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             spreadRadius: 2,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
