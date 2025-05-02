@@ -12,12 +12,12 @@ class VisualizationBloc extends Bloc<VisualizationEvent, VisualizationState> {
 
   Future<void> _onFetchVisualizationData(
       FetchVisualizationData event, Emitter<VisualizationState> emit) async {
-    emit(VisualizationLoading()); // لما يبدأ تحميل البيانات
+    emit(VisualizationLoading()); 
 
     try {
       final data = await surveyService.fetchCsvData();
 
-      // احسب عدد الناس في المدينة والريف
+      
       int cityLivingCount = data
           .where((survey) =>
               survey.currentLivingAreaType.toLowerCase().trim() ==
